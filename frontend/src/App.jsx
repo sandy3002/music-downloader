@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 // Configuration
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = 'https://music-downloader-backend.vercel.app/api';
 
 function App() {
   const [url, setUrl] = useState('');
