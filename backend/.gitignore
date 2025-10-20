@@ -4,3 +4,5 @@ downloads/
 *.log
 .DS_Store
 .vercel
+
+log/

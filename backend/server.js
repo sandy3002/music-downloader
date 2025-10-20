@@ -22,24 +22,28 @@ if (!fs.existsSync(downloadsDir)) {
   fs.mkdirSync(downloadsDir);
 }
 
-// Clean up old files (older than 1 hour)
+// Clean up old files (older than 5 minutes)
 const cleanupOldFiles = () => {
   const files = fs.readdirSync(downloadsDir);
   const now = Date.now();
-  const oneHour = 60 * 60 * 1000;
+  const fiveMinutes = 5 * 60 * 1000;
 
   files.forEach((file) => {
     const filePath = path.join(downloadsDir, file);
-    const stats = fs.statSync(filePath);
-    if (now - stats.mtimeMs > oneHour) {
-      fs.unlinkSync(filePath);
-      console.log(`Deleted old file: ${file}`);
+    try {
+      const stats = fs.statSync(filePath);
+      if (now - stats.mtimeMs > fiveMinutes) {
+        fs.unlinkSync(filePath);
+        console.log(`Deleted old file: ${file}`);
+      }
+    } catch (err) {
+      console.error(`Error checking/removing file ${file}:`, err);
     }
   });
 };
 
-// Run cleanup every 30 minutes
-setInterval(cleanupOldFiles, 30 * 60 * 1000);
+// Run cleanup every 1 minute
+setInterval(cleanupOldFiles, 1 * 60 * 1000);
 
 // Helper function to validate YouTube URL
 function isValidYouTubeUrl(url) {
